@@ -56,6 +56,7 @@ METRIC_TYPES = {
     'wretr': ('retries', 'counter'),
 }
 
+METRIC_TYPES = dict((k.lower(), v) for k, v in METRIC_TYPES.items())
 METRIC_DELIM = '.'  # for the frontend/backend stats
 
 DEFAULT_SOCKET = '/var/lib/haproxy/stats'
@@ -197,10 +198,10 @@ def read_callback():
                 key_prefix, key_root = key.rsplit(METRIC_DELIM, 1)
             except ValueError:
                 pass
-        if not key_root in METRIC_TYPES:
+        if not key_root.lower() in METRIC_TYPES:
             continue
 
-        key_root, val_type = METRIC_TYPES[key_root]
+        key_root, val_type = METRIC_TYPES[key_root.lower()]
         if key_prefix == '':
             key_name = key_root
         else:
