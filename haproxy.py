@@ -24,7 +24,6 @@ METRIC_TYPES = {
     'MaxSessRate': ('max_session_rate', 'gauge'),
     'MaxSslConns': ('max_ssl_connections', 'gauge'),
     'CumSslConns': ('ssl_connections', 'counter'),
-    'MaxSslConns': ('max_ssl_connections', 'gauge'),
     'MaxPipes': ('max_pipes', 'gauge'),
     'Idle_pct': ('idle_pct', 'gauge'),
     'Tasks': ('tasks', 'gauge'),
