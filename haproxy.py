@@ -50,6 +50,7 @@ METRIC_TYPES = {
     'rate': ('session_rate', 'gauge'),
     'req_rate': ('request_rate', 'gauge'),
     'act': ('active_servers', 'gauge'),
+    'bck': ('backup_servers', 'gauge'),
     'scur': ('session_current', 'gauge'),
     'wredis': ('redistributed', 'derive'),
     'wretr': ('retries', 'derive'),
