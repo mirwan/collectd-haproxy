@@ -50,6 +50,7 @@ METRIC_TYPES = {
     'qcur': ('queue_current', 'gauge'),
     'rate': ('session_rate', 'gauge'),
     'req_rate': ('request_rate', 'gauge'),
+    'act': ('active_servers', 'gauge'),
     'stot': ('session_total', 'counter'),
     'scur': ('session_current', 'gauge'),
     'wredis': ('redistributed', 'counter'),
