@@ -18,45 +18,44 @@ PLUGIN_NAME = 'haproxy'
 RECV_SIZE = 1024
 METRIC_TYPES = {
     'MaxConn': ('max_connections', 'gauge'),
-    'CumConns': ('connections', 'counter'),
-    'CumReq': ('requests', 'counter'),
+    'CumConns': ('connections', 'derive'),
+    'CumReq': ('requests', 'derive'),
     'MaxConnRate': ('max_connection_rate', 'gauge'),
     'MaxSessRate': ('max_session_rate', 'gauge'),
     'MaxSslConns': ('max_ssl_connections', 'gauge'),
-    'CumSslConns': ('ssl_connections', 'counter'),
-    'MaxSslConns': ('max_ssl_connections', 'gauge'),
+    'CumSslConns': ('ssl_connections', 'derive'),
     'MaxPipes': ('max_pipes', 'gauge'),
     'Idle_pct': ('idle_pct', 'gauge'),
     'Tasks': ('tasks', 'gauge'),
     'Run_queue': ('run_queue', 'gauge'),
     'PipesUsed': ('pipes_used', 'gauge'),
     'PipesFree': ('pipes_free', 'gauge'),
-    'Uptime_sec': ('uptime_seconds', 'counter'),
-    'bin': ('bytes_in', 'counter'),
-    'bout': ('bytes_out', 'counter'),
-    'chkfail': ('failed_checks', 'counter'),
-    'downtime': ('downtime', 'counter'),
-    'dresp': ('denied_response', 'counter'),
-    'dreq': ('denied_request', 'counter'),
-    'econ': ('error_connection', 'counter'),
-    'ereq': ('error_request', 'counter'),
-    'eresp': ('error_response', 'counter'),
-    'hrsp_1xx': ('response_1xx', 'counter'),
-    'hrsp_2xx': ('response_2xx', 'counter'),
-    'hrsp_3xx': ('response_3xx', 'counter'),
-    'hrsp_4xx': ('response_4xx', 'counter'),
-    'hrsp_5xx': ('response_5xx', 'counter'),
-    'hrsp_other': ('response_other', 'counter'),
+    'Uptime_sec': ('uptime_seconds', 'derive'),
+    'bin': ('bytes_in', 'derive'),
+    'bout': ('bytes_out', 'derive'),
+    'chkfail': ('failed_checks', 'derive'),
+    'downtime': ('downtime', 'derive'),
+    'dresp': ('denied_response', 'derive'),
+    'dreq': ('denied_request', 'derive'),
+    'econ': ('error_connection', 'derive'),
+    'ereq': ('error_request', 'derive'),
+    'eresp': ('error_response', 'derive'),
+    'hrsp_1xx': ('response_1xx', 'derive'),
+    'hrsp_2xx': ('response_2xx', 'derive'),
+    'hrsp_3xx': ('response_3xx', 'derive'),
+    'hrsp_4xx': ('response_4xx', 'derive'),
+    'hrsp_5xx': ('response_5xx', 'derive'),
+    'hrsp_other': ('response_other', 'derive'),
     'qcur': ('queue_current', 'gauge'),
     'rate': ('session_rate', 'gauge'),
     'req_rate': ('request_rate', 'gauge'),
     'act': ('active_servers', 'gauge'),
-    'stot': ('session_total', 'counter'),
     'scur': ('session_current', 'gauge'),
-    'wredis': ('redistributed', 'counter'),
-    'wretr': ('retries', 'counter'),
+    'wredis': ('redistributed', 'derive'),
+    'wretr': ('retries', 'derive'),
 }
 
+METRIC_TYPES = dict((k.lower(), v) for k, v in METRIC_TYPES.items())
 METRIC_DELIM = '.'  # for the frontend/backend stats
 
 DEFAULT_SOCKET = '/var/lib/haproxy/stats'
@@ -198,10 +197,10 @@ def read_callback():
                 key_prefix, key_root = key.rsplit(METRIC_DELIM, 1)
             except ValueError:
                 pass
-        if not key_root in METRIC_TYPES:
+        if not key_root.lower() in METRIC_TYPES:
             continue
 
-        key_root, val_type = METRIC_TYPES[key_root]
+        key_root, val_type = METRIC_TYPES[key_root.lower()]
         if key_prefix == '':
             key_name = key_root
         else:
