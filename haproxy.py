@@ -154,7 +154,7 @@ def get_stats():
         except (TypeError, ValueError):
             pass
 
-    ignored_svnames = set(['BACKEND'])
+    ignored_svnames = ''
     for statdict in server_stats:
         if statdict['svname'] in ignored_svnames:
             continue
