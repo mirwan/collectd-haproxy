@@ -154,9 +154,9 @@ def get_stats():
         except (TypeError, ValueError):
             pass
 
-    ignored_svnames = ''
+    included_svnames = set(['BACKEND', 'FRONTEND'])
     for statdict in server_stats:
-        if statdict['svname'] in ignored_svnames:
+        if statdict['svname'] not in included_svnames:
             continue
         for key, val in statdict.items():
             metricname = METRIC_DELIM.join(
