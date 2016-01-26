@@ -52,6 +52,7 @@ METRIC_TYPES = {
     'act': ('active_servers', 'gauge'),
     'bck': ('backup_servers', 'gauge'),
     'scur': ('session_current', 'gauge'),
+    'slim': ('session_limit', 'gauge'),
     'wredis': ('redistributed', 'derive'),
     'wretr': ('retries', 'derive'),
 }
