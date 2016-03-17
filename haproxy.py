@@ -84,12 +84,23 @@ log = Logger()
 
 
 class HAProxySocket(object):
-    def __init__(self, socket_file=DEFAULT_SOCKET):
-        self.socket_file = socket_file
+    def __init__(self, socquette=DEFAULT_SOCKET):
+        if socquette.startswith( '/' ) or socquette.startswith( 'file://' ):
+            self.socket_file = socquette.replace('file://', '')
+            self.socket_tcpaddr = None
+            self.socket_tcpport = None
+        else:
+            self.socket_file = None
+            self.socket_tcpaddr = socquette.replace('tcp://', '').split(':',1)[0]
+            self.socket_tcpport = socquette.replace('tcp://', '').split(':',1)[1]
 
     def connect(self):
-        stat_sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
-        stat_sock.connect(self.socket_file)
+        if self.socket_file is None:
+            stat_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            stat_sock.connect((self.socket_tcpaddr, self.socket_tcpport))
+        else:
+            stat_sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+            stat_sock.connect(self.socket_file)
         return stat_sock
 
     def communicate(self, command):
